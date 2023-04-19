@@ -22,6 +22,7 @@ const router = createBrowserRouter(
               </Suspense>
             }
             loader={async ()=> { return await route.data() }}
+            action={({request})=>route.action(request)}
           />
         );
       })}

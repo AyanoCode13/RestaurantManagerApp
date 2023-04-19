@@ -1,21 +1,24 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useActionData } from "react-router-dom";
 import Table from "../../models/Table";
-import { Button, Grid, Stack } from "@mui/material";
-import addTableImage from "../../../assets/addTable.png";
+import { Grid, Stack } from "@mui/material";
 import { useState } from "react";
+import FormTemplate from "../../templates/FormTemplate";
+import TableFormFields from "../../templates/FormFields/TableFormFields";
 
 export default function TablesPage() {
   const [tables, setTables] = useState(useLoaderData());
+  const actionData = useActionData();
+
   const deleteTable = (table) => {
     setTables((prevTables) => prevTables.filter((t) => t.id !== table.id));
   };
-  const addTable = (table) => {
-    setTables((prevTables) => [...prevTables, table]);
+  const addTable = async () => {
+   console.log(actionData)
   };
 
   return (
     <Stack spacing={2}>
-      <Button variant="contained" onClick={()=>addTable()}>Add Table</Button>
+      <FormTemplate formFields={TableFormFields()} action={"/tables"} method={"post"} submit={addTable}/>
       <Grid container direction={"row"} spacing={2}>
         {tables.map((table) => {
           return (
