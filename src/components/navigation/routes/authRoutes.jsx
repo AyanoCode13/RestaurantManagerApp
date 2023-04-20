@@ -8,16 +8,21 @@ export default [
     path: "tables",
     element: lazy(() => import("../../pages/table/TablesPage")),
     action: async ( request ) => {
-      const tablesController = await import("../../../controllers/tablesController");
+      const tablesController = await import("../../../api/controllers/tablesController");
       const formData = await request.formData();
       const data = {
         name:formData.get("name"),
         size:formData.get("size")
       }
-      return await tablesController.addTable(data);
+      await tablesController.addTable(data);
+      const { tablesCollection } = await import("../../../api/db/firebase");
+      const tables = await getDocs(tablesCollection);   
+      return tables.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
     },
     data: async () => {
-      const { tablesCollection } = await import("../../../db/firebase");
+      const { tablesCollection } = await import("../../../api/db/firebase");
       const tables = await getDocs(tablesCollection);   
       return tables.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };

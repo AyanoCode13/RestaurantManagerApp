@@ -1,7 +1,6 @@
-export default function GuestLayout ({childern}){
+export default function GuestLayout (){
     return (
         <div>
-            {childern}
         </div>
     )
 }

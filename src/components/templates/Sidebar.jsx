@@ -25,7 +25,7 @@ export default function Sidebar() {
         >
           <Toolbar>
             <Typography variant="h4" noWrap component="div">
-              Reataurant App
+              Restaurant App
             </Typography>
           </Toolbar>
         </AppBar>

@@ -3,13 +3,13 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Suspense } from "react";
-import AuthLayout from "../layouts/AuthLayout";
+import { Suspense, lazy } from "react";
+const AuthLayout = lazy(() => import("../layouts/AuthLayout"));
 import AuthRoutes  from "./routes/authRoutes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AuthLayout />}>
+    <Route path="/" element={<Suspense fallback={<div>...Loading</div>}><AuthLayout/></Suspense>}>
       {AuthRoutes.map(route => {
         return (
           <Route
@@ -22,7 +22,6 @@ const router = createBrowserRouter(
               </Suspense>
             }
             loader={async ()=> { return await route.data() }}
-            action={({request})=>route.action(request)}
           />
         );
       })}

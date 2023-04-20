@@ -22,7 +22,7 @@ export default function AuthLayout() {
             width:"100%"
           }}
         >
-          <Container sx={{width:"100%"}} >
+          <Container sx={{width:"100%"}}>
             <Outlet />
           </Container>
         </div>

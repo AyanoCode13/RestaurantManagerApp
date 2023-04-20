@@ -1,20 +1,30 @@
 import {
-  Button,
   Card,
   CardHeader,
   CardMedia,
   CardActions,
-  CardContent,
   Grid,
+  IconButton,
 } from "@mui/material";
+import CircleIcon from '@mui/icons-material/Circle';
+import DeleteIcon from '@mui/icons-material/Delete';
 import image from "../.././assets/table.png";
-import { Form } from "react-router-dom";
+import { useState } from "react";
 
 export default function Table({ props, deleteTable }) {
+  const [booked, setBooked] = useState(props.booked);
+  const handleDelete = async () => {
+    await deleteTable(props);
+  }
+  const handleBooked = async () => {
+    const { updateTable } = await import("../pages/table/TableFunctions");
+    await updateTable({ ...props, booked: !booked });
+    setBooked(!booked);
+  }
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ maxWidth: 400 }}>
-        <CardHeader title={props.name} />
+      <Card sx={{ maxWidth: 400, backgroundColor:"lightblue", border:"1px solid black"}} onClick={()=>{console.log(props.id)}} variant="outlined">
+        <CardHeader avatar={<IconButton onClick={handleBooked}><CircleIcon color={booked ? "error" : "success"} /></IconButton> } title={booked ? "Unavailable" : "Available"} subheader={"Size:" + props.size + " Total:"+props.total}/>
         <CardMedia
           component="img"
           alt="green iguana"
@@ -22,19 +32,15 @@ export default function Table({ props, deleteTable }) {
           width={150}
           image={image}
         />
-        <CardContent></CardContent>
         <CardActions style={{ justifyContent: "center" }}>
-          <Button
+          <IconButton
             variant="contained"
             size="large"
             color="error"
-            onClick={() => deleteTable(props)}
+            onClick={handleDelete}
           >
-            Delete
-          </Button>
-          <Button variant="contained" size="large">
-            View
-          </Button>
+            <DeleteIcon />
+          </IconButton>
         </CardActions>
       </Card>
     </Grid>
