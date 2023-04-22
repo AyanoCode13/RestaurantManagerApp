@@ -1,16 +1,12 @@
-import { Button, FormControl, IconButton, Stack, Typography } from "@mui/material";
+import { FormControl, IconButton, Stack, Typography } from "@mui/material";
 import { Form } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function FormTemplate({ formFields, submit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      name: e.target["name"].value,
-      size: e.target["size"].value,
-    };
-    e.target.reset()
-    await submit(data);
+    await submit(e.target["size"].value)
+    e.target.reset();
   };
 
   return (

@@ -1,28 +1,30 @@
-const TableModel = (size, booked) => {
+export const TableModel = (size) => {
   return {
     size: Number(size),
     total: 0.0,
-    booked: booked ?? false,
+    booked: false,
     managed_by: "",
   };
 };
-
-export const add = async (size, booked) => {
-  const { tablesCollection } = await import("../db/firebase");
-  const { addDoc } = await import("firebase/firestore");
-  const tableModel = TableModel(size, booked);
-  const table = await addDoc(tablesCollection, tableModel);
-  return { id: table.id, ...tableModel };
-};
-
+export const add = async (size) => {
+  const { add } = await import("../db/repository");
+  const newTable = TableModel(size)
+  const table = await add("tables", newTable); 
+  return { id: table.id, ...newTable}
+}
 export const remove = async (data) => {
-  const { tablesCollection } = await import("../db/firebase");
-  const { deleteDoc, doc } = await import("firebase/firestore");
-  await deleteDoc(doc(tablesCollection, data.id));
-};
-
+  const { remove } = await import("../db/repository");
+  await remove("tables", data.id);
+} 
 export const update = async (data) => {
-  const { tablesCollection } = await import("../db/firebase");
-  const { updateDoc, doc } = await import("firebase/firestore");
-  await updateDoc(doc(tablesCollection, data.id), data);
+  const { update } = await import("../db/repository");
+  await update("tables", data);
+}
+export const get = async (id) => {
+  const { get } = await import("../db/repository");
+  return await get("tables", id);
+}
+export const getAll = async () => {
+  const { getAll } = await import("../db/repository");
+  return await getAll("tables");
 }

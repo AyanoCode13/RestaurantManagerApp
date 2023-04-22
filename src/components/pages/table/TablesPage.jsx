@@ -7,18 +7,20 @@ import TableFormFields from "../../templates/FormFields/TableFormFields";
 
 export default function TablesPage() {
   const [tables, setTables] = useState(useLoaderData());
+  console.log(tables);
 
   const removeTable = async (table)=>{
-    const { deleteTable } = await import("./TableFunctions");
+    const { removeTable } = await import("../../../api/controllers/tablesController");
     setTables(tables.filter((t)=>t.id !== table.id));
-    await deleteTable(table);
+    await removeTable(table);
   }
 
 
   return (
     <Stack spacing={2}>
       <FormTemplate formFields={TableFormFields()} submit={async (data)=>{
-        const { addTable } = await import("./TableFunctions");
+        console.log(data);
+        const { addTable } = await import("../../../api/controllers/tablesController");
         setTables([...tables, await addTable(data)]);
       }}/>
       <Grid container direction={"row"} spacing={2}>

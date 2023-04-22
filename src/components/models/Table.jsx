@@ -17,8 +17,8 @@ export default function Table({ props, deleteTable }) {
     await deleteTable(props);
   }
   const handleBooked = async () => {
-    const { updateTable } = await import("../pages/table/TableFunctions");
-    await updateTable({ ...props, booked: !booked });
+    const { modifyTable } = await import("../../api/controllers/tablesController");
+    await modifyTable({ ...props, booked: !booked });
     setBooked(!booked);
   }
   return (
