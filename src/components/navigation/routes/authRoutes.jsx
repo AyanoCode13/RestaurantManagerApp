@@ -24,7 +24,8 @@ export default [
     path:"stock",
     element: lazy(() => import("../../pages/stock/StockPage")),
     data: async () => {
-      return []; 
+      const { getAllStock } = await import("../../../api/controllers/stockController");
+      return await getAllStock();; 
     }
   }
 ];
