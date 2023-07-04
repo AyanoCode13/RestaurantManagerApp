@@ -8,7 +8,9 @@ import { Button, Stack, TextField } from "@mui/material";
 import { useLoaderData } from "react-router-dom";
 
 function TabPanel(props) {
+  console.log("TabPanel")
   const { children, value, index, ...other } = props;
+  console.log(children.name)
 
   return (
     <div
@@ -20,7 +22,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography>{children.name}</Typography>
         </Box>
       )}
     </div>
@@ -37,13 +39,13 @@ function a11yProps(index) {
 export default function StockPage() {
   const [stock, setStock] = useState(useLoaderData());
   const [value, setValue] = useState(0);
-  const [stockTypes, setStockTypes] = useState(["Food", "Alcohool"]);
   const [visible, setVisible] = useState(false);
   const [stockName, setStockName] = useState([]);
 
-  console.log(stock);
 
   const handleChange = (event, newValue) => {
+    console.log(value)
+    console.log(newValue)
     setValue(newValue);
   };
 
@@ -58,6 +60,7 @@ export default function StockPage() {
             aria-label="basic tabs example"
           >
             {stock.map((stockType) => {
+              console.log(stockType);
               return (
                 <Tab
                   label={stockType.name}
@@ -90,7 +93,7 @@ export default function StockPage() {
                 onClick={async() => {
                   const { addStock } = await import("../../../api/controllers/stockController");
                   const newStock = await addStock(stockName);
-                  setStockTypes((prevStock) => [...prevStock, newStock]);
+                  setStock((prevStock) => [...prevStock, newStock]);
                   setVisible(false);
                 }}
               >
@@ -100,10 +103,11 @@ export default function StockPage() {
           )}
         </Stack>
       </Box>
-      {stock.map((stockType, index) => {
+      {stock.map((item, index) => {
+        console.log(item)
         return (
-          <TabPanel value={stockType.name} index={index} key={index}>
-            {stockType}
+          <TabPanel value={value} index={index} key={item.id}>
+            {item}
           </TabPanel>
         );
       })}
